@@ -13,21 +13,22 @@ class RCDatabase {
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly constructed
       join(await getDatabasesPath(), 'rc_database.db'),
+
       // When the database is first created, create a table to store review_cards.
       // Auto incrementing the primary key.
-      onCreate: (db, version) {
-        return db.execute(
-          '''CREATE TABLE review_cards(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            subject TEXT,
-            question TEXT, 
-            answer TEXT
-          )''',
-        );
-      },
+      // onCreate: (db, version) {
+      //   return db.execute(
+      //     '''CREATE TABLE review_cards(
+      //       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      //       subject TEXT,
+      //       question TEXT,
+      //       answer TEXT
+      //     )''',
+      //   );
+      // },
       // Set the version. This executes the onCreate function and provides a
       // path to perform database upgrades and downgrades.
-      version: 13,
+      version: 15,
     );
   }
 
@@ -85,8 +86,26 @@ class RCDatabase {
   }
 
   ////////////////////////////////////////////////
-  /// Update Card
+  /// Update Database to add subject table
   ////////////////////////////////////////////////
+  static addNewTopic(String tableName) async {
+    final Database db = await database;
+
+    db
+        .execute(
+          '''CREATE TABLE $tableName(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            question TEXT,
+            answer TEXT
+          )''',
+        )
+        .whenComplete(
+          () => print("$tableName created!"),
+        )
+        .catchError((error) {
+          print("Could not add $tableName");
+        });
+  }
 
   ////////////////////////////////////////////////
   /// Delete Entire Table

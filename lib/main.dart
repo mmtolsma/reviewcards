@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:review_cards/pages/add-card.dart';
 import 'package:review_cards/pages/card-viewer.dart';
-import 'package:review_cards/pages/subject-viewer.dart';
+import 'package:review_cards/pages/topic-viewer.dart';
 import 'package:review_cards/services/rc-database.dart';
 
 void main() async {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AddCard(title: "title"),
+      home: TopicViewer(),
     );
   }
 }
