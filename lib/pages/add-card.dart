@@ -62,20 +62,17 @@ class _AddCardState extends State<AddCard> {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
                           ReviewCard rc = new ReviewCard(
-                            subject: subjectText.toString(),
                             question: questionText.toString(),
                             answer: answerText.toString(),
                           );
 
-                          RCDatabase.insertRC(rc);
+                          RCDatabase.insertCard(rc);
                         }
                       },
                       child: Text("add"),
                     ),
                     ElevatedButton(
-                      onPressed: () async {
-                        await RCDatabase.fetchAllCards();
-                      },
+                      onPressed: () async {},
                       child: Text("fetch cards"),
                     ),
                     ElevatedButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:review_cards/services/rc-database.dart';
 
 class TopicViewer extends StatefulWidget {
@@ -9,15 +10,9 @@ class TopicViewer extends StatefulWidget {
 }
 
 class _TopicViewerState extends State<TopicViewer> {
+  String topicName;
   List<String> subjects = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  getCards() async {
-    var _subjects = await RCDatabase.fetchSubjectCards();
-    setState(() {
-      subjects = _subjects;
-    });
-  }
 
   @override
   void initState() {
@@ -89,10 +84,20 @@ class _TopicViewerState extends State<TopicViewer> {
         content: Form(
           key: _formKey,
           child: TextFormField(
+            autocorrect: false,
+            inputFormatters: [
+              //TODO: Need to allow spaces? Or only have one word topics?
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+            ],
             validator: (topic) {
               return (topic.isEmpty || topic.trim().isEmpty)
                   ? 'Cannot be blank!'
                   : null;
+            },
+            onSaved: (newValue) {
+              setState(() {
+                topicName = newValue;
+              });
             },
           ),
         ),
@@ -107,6 +112,10 @@ class _TopicViewerState extends State<TopicViewer> {
                 onPressed: () {
                   // Create new table, add to a list
                   if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    //TODO: if valid, create new table based on the topic name.
+                    // Remove trailing and leading whitespaces
+                    //RCDatabase.insertTopic(topicName.trim());
                     print("Hey, it's valid!");
                     Navigator.pop(context);
                   }

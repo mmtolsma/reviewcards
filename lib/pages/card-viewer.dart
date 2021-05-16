@@ -12,16 +12,8 @@ class CardViewer extends StatefulWidget {
 class _CardViewerState extends State<CardViewer> {
   List<ReviewCard> cards = [];
 
-  getCards() async {
-    var _cards = await RCDatabase.fetchAllCards();
-    setState(() {
-      cards = _cards;
-    });
-  }
-
   @override
   void initState() {
-    getCards();
     super.initState();
   }
 

@@ -1,33 +1,34 @@
 // Class for each review card's data
 class ReviewCard {
   int id;
-  String subject;
+  int topicId;
   String question;
   String answer;
 
-  ReviewCard({this.id, this.subject, this.question, this.answer});
+  ReviewCard({this.id, this.question, this.answer});
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = id;
-    map['subject'] = subject;
+    map['topic_id'] = topicId;
     map['question'] = question;
     map['answer'] = answer;
     return map;
   }
 
-  // a constructor, which takes the Map<String, dynamic>
+  // a named constructor, which takes the Map<String, dynamic>
   // as input parameters
-  ReviewCard.fromDb(Map<String, dynamic> map)
-      : id = map['id'],
-        subject = map['subject'],
-        question = map['question'],
-        answer = map['answer'];
+  ReviewCard.fromMap(Map<String, dynamic> map) {
+    this.id = map['id'];
+    this.topicId = map['topic_id'];
+    this.question = map['question'];
+    this.answer = map['answer'];
+  }
 
   // nice way of printing out an object's information
   // calling print(ReviewCardObject) will invoke this method
   @override
   String toString() {
-    return '(id: $id, subject: $subject, question: $question, answer: $answer)';
+    return '(id: $id, topic_id: $topicId, question: $question, answer: $answer)';
   }
 }
